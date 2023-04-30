@@ -1,167 +1,242 @@
 <?php 
-require_once("Includes/config.php");
-require_once("Includes/session.php");
-// if ($count===0) {
-//     $err_login="There were some problem";
-// }
-if(isset($_SESSION['logged']))
-{
-    if ($_SESSION['logged'] == true)
-    {
-        if ($_SESSION['account']=="admin") {
-                header("Location:admin/index.php");
-            }
-        elseif ($_SESSION['account']=="user") {
-                header("Location:user/index.php");
-            }
-    }  
-    else  {
-        header("Location:../index.php");
-      }  
-}
-
-if(isset($_POST['login_submit'])) {
-    if(!(isset($_POST['email']))) {
-        if(!(isset($_POST['pass']))) {
-            location('index.php');    
-        }
+    require_once('head_html.php'); 
+    require_once('../Includes/config.php'); 
+    require_once('../Includes/session.php'); 
+    require_once('../Includes/admin.php'); 
+    if ($logged==false) {
+         header("Location:../index.php");
     }
-}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoJiIKKCYiWgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoJiIgKCYiuygmIhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoJiJDKCYi7SgmIlIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoJiJzKCYi/SgmIqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgmIgooJiKmKCYi/ygmIuAoJiIOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgmIh8oJiLPKCYi/ygmIv4oJiI/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgmIkEoJiLrKCYi/ygmIv8oJiKMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgmInAoJiL8KCYi/ygmIv8oJiL/KCYiySgmIpwoJiJzKCYiKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgmIhYoJiJyKCYinCgmIsIoJiL8KCYi/ygmIv8oJiL/KCYinygmIgkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoJiJTKCYi/ygmIv8oJiL5KCYiaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoJiIeKCYi7ygmIv8oJiLjKCYiNwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoJiIDKCYixCgmIv8oJiK+KCYiFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKCYigigmIv8oJiKJKCYiAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKCYiPigmIvAoJiJSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKCYiEigmIrooJiInAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgmIlooJiIMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP/3AAD/7wAA/88AAP8fAAD+PwAA/D8AAPgfAAD4DwAA/j8AAPx/AAD4/wAA8f8AAPf/AADv/wAA//8AAA==" rel="icon" type="image/x-icon" />
-
-    <title>E-bill System</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <link href="assets/css/font-awesome.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"> -->
-
-
-    <!-- Custom styles for this template -->
-    <link href="assets/css/main.css" rel="stylesheet">
-
-    <!-- Fonts from Google Fonts -->
-    <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'> -->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-</head>
 
 <body>
 
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.php"><b>E-Billing System</b></a>
-            </div>
-            <div class="navbar-collapse collapse" >
-                <?php include("login.php"); ?>
-            </div>
-            <!--/.nav-collapse -->
-        </div>
-    </div>
-
-    <div id="headerwrap">
-        <div class="darkhearderwrap">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 signup">
-                        <h1>Electricity Billing System</h1>
-                        <p>This website at the end of its construction will act as a consumer oriented service for users for easy payment of their respective <b>Electricity Bill</b> as well as interact with their providers in case of any queries or grivances.</p>
-                    </div>
-                    <!-- /col-lg-6 -->
-                    <div class="col-lg-6">
-                        <h1>Sign Up</h1>
-                        <?php include("signup.php"); ?>
-                    </div>
-                    <!-- /col-lg-6 -->
-
-                </div>
-                <!-- /row -->
-            </div>
-            <!-- /container -->
-            </div>
-    </div>
-    <!-- /headerwrap -->
-
-
-    <div class="container">
-        <div class="row mt centered">
-            <div class="col-lg-6 col-lg-offset-3">
-                <h1>How this Portal woks</h1>
-                <h3></h3>
-            </div>
-        </div>
-        <!-- /row -->
-
-        <div class="row mt centered">
-            <div class="col-lg-4">
-                <img src="assets/img/ser01.png" width="180" alt="">
-                <h4>1 - Login</h4>
-                <p></p>
-            </div>
-            <!--/col-lg-4 -->
-
-            <div class="col-lg-4">
-                <img src="assets/img/ser02.png" width="180" alt="">
-                <h4>2 - Peruse Bills</h4>
-                <p></p>
-            </div>
-            <!--/col-lg-4 -->
-
-            <div class="col-lg-4">
-                <img src="assets/img/ser03.png" width="180" alt="">
-                <h4>3 - Transact</h4>
-                <p></p>
-            </div>
-            <!--/col-lg-4 -->
-
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-
-    <?php 
-    require_once("footer.php");
-    ?>
-
-    <!--=======================JS=========================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery-1.11.0.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <!-- jQuery Version 1.11.0 -->
-
-    <script src="assets/js/custom.js"></script>
-    <script>
-
-    function validateForm() {
-            var x = document.forms["myForm"]["email"].value;
-            var atpos = x.indexOf("@");
-            var dotpos = x.lastIndexOf(".");
-            if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=x.length) {
-                alert("Not a valid e-mail address");
-                return false;
-            }
-        }  </script> 
-
+    <div id="wrapper">
     
+        <?php 
+            require_once("nav.php");
+            require_once("sidebar.php");
+        ?>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Dashboard
+                            <small> Overview</small>
+                            <!-- Like bills processed by the admin ; bills generated , unprocessed complaint
+                            maybe a stats infograph -->
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <?php 
+                    list($result1,$result2,) = retrieve_users_defaulting($_SESSION['aid']);
+                    $row1 = mysqli_fetch_row($result1);
+                    $row2 = mysqli_fetch_row($result2);
+                ?>
+                <div class="row">
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="panel panel-bolt">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-warning fa-3x"></i>
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge"><b></b><?php echo $row1[0] ?></div>
+                                        <div>Late Users</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" data-toggle="modal" data-target="#late">
+                                <div class="panel-footer">
+                                    <span class="pull-left"><b>ADD DUES</b></span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div><!-- ./panel-closes -->
+
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="panel panel-bolt2">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-users fa-3x"></i>
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge"><b></b><?php echo $row2[0] ?></div>
+                                        <div>User Defaulting</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" data-toggle="modal" data-target="#defaulting">
+                                <div class="panel-footer">
+                                    <span class="pull-left"><b>REMOVE USER(s)</b></span>
+                                    <span class="pull-right"><i class="fa fa-trash fa-2x"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div> <!-- ./panel-closes -->
+
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="panel panel-bolt2">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-spinner fa-3x"></i>
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge"><b></b><?php include('pendingcount.php'); ?></div>
+                                        <div>Total Pending Bills</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" data-toggle="modal" data-target="#defaulting00">
+                                <div class="panel-footer">
+                                    <span class="pull-left"><b>PENDING BILLS</b></span>
+                                    <span class="pull-right"><i class="fa fa-spinner fa-2x"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div> <!-- ./panel-closes -->
+
+
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="panel panel-bolt2">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-dollar fa-3x"></i>
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge"><b></b><?php include('billamtcount.php'); ?></div>
+                                        <div>Total Transaction Amount</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" data-toggle="modal" data-target="#defaulting00">
+                                <div class="panel-footer">
+                                    <span class="pull-left"><b>BILLS AMOUNT</b></span>
+                                    <span class="pull-right"><i class="fa fa-dollar fa-2x"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div> <!-- ./panel-closes -->
+                </div><!-- ./row -->
+
+
+                <div class="row">
+                    <?php 
+                        list($result1,$result2,$result3) = retrieve_admin_stats($_SESSION['aid']);
+                        $row1 = mysqli_fetch_row($result1);
+                        $row2 = mysqli_fetch_row($result2);
+                        $row3 = mysqli_fetch_row($result3);
+                     ?>
+                     <div class="col-lg-3 col-xs-6"></div>
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="panel panel-bolt">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-file fa-3x"></i>
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge"><b></b><?php echo $row2[0]; ?></div>
+                                        <div>Generated Bills</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div><!-- ./panel-closes -->
+
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="panel panel-bolt">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-bullhorn fa-3x"></i>
+                                    </div>
+                                    <div class="col-md-9 text-right">
+                                        <div class="huge"><b></b><?php echo $row3[0]; ?></div>
+                                        <div>Unprocessed Complaints</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div><!-- ./panel-closes -->
+                    <div class="col-lg-3 col-xs-6"></div>
+                </div>
+
+                
+
+                 <!-- New Modal FOR DISHING OUT DUES-->
+                                <div class="modal fade" id="late" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                <h3 class="modal-title"><b>ADD DUES TO USERS</b></h3>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <p><h4>ARE YOU SURE?</h4></p>
+                                                <!-- <p>Do it today or forever hold your speech!</p> -->
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="dash_defaulting_users.php" method="post">                                               
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">NO</button>
+                                                    <button type="submit" id="late_user" name="late_user" class="btn btn-success ">YES</button>
+                                                </form> 
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                 <!-- New Modal FOR REMOVING USERS-->
+                                <div class="modal fade" id="defaulting" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                <h3 class="modal-title"><b>DELETE USERS</b></h3>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <p><h4>ARE YOU SURE?</h4></p>
+                                                <!-- <p>Do it today or forever hold your speech!</p> -->
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="dash_defaulting_users.php" method="post">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">NO</button>
+                                                    <button type="submit" id="defaulting_user" name="defaulting_user" class="btn btn-success ">YES</button>
+                                                </form>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    
+
+<?php 
+    require_once("footer.php");
+    require_once("js.php");
+?>
+
 </body>
 
 </html>
