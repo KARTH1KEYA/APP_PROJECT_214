@@ -5,10 +5,11 @@
             <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
         </li>
         <li>
-            <a href="users.php"><i class="fa fa-fw fa-users"></i> Customers </a>
+            <a href="bill.php"><i class="fa fa-fw fa-dollar"></i> Bills </a>
         </li>
+        <!-- new bills by bootstrap badges -->
         <li>
-            <a href="bill.php"><i class="fa fa-fw fa-dollar"></i> Billings </a>
+            <a href="transaction.php"><i class="fa fa-fw fa-table"></i> Transactions </a>
         </li>
         <li>
             <a href="complaint.php"><i class="fa fa-fw fa-info"></i> Complaints </a>

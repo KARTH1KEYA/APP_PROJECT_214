@@ -15,7 +15,8 @@
     <link href="../assets/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../assets/css/dash_admin.css" rel="stylesheet">
+    <link href="../assets/css/dash_user.css" rel="stylesheet">
+    
     <!-- <link href="../assets/css/font-awesome.css" rel="stylesheet"> -->
 
     <!-- Custom Fonts -->

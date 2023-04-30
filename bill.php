@@ -2,7 +2,7 @@
     require_once('head_html.php'); 
     require_once('../Includes/config.php'); 
     require_once('../Includes/session.php'); 
-    require_once('../Includes/admin.php'); 
+    require_once('../Includes/user.php'); 
     if ($logged==false) {
          header("Location:../index.php");
     }
@@ -29,99 +29,158 @@
                             Bills
                         </h1>
 
-                        <!-- Pills Tabbed GENERATED | GENERATE -->
+                        <!-- Pills Tabbed HISTORY | DUE -->
                         <ul class="nav nav-pills nav-justified">
-                            <li class="active"><a href="#generated" data-toggle="pill">Bills History</a>
+                            <li class="active"><a href="#history" data-toggle="pill">History</a>
                             </li>
-                            <li class=""><a href="#generate" data-toggle="pill">Generate New Bill</a>
+                            <li class=""><a href="#due" data-toggle="pill">Due</a>
                             </li>
                         </ul>
 
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <div class="tab-pane fade in active" id="generated">
+                            <div class="tab-pane fade in active" id="history">
                                 <!-- <h4>{User} Bills(ALL UP TO DATE) goes here{Table form}</h4> -->
                                 <!-- DB RETRIEVAL search db where id is his and status is processed -->
-                                
                                 <div class="table-responsive">
                                     <table class="table table-hover table-striped table-bordered table-condensed">
                                         <thead>
                                             <tr>
                                                 <th>Bill No.</th>
-                                                <th>Customer</th>
-                                                <th>Date</th>
+                                                <th>Bill Date</th>
                                                 <th>UNITS Consumed</th>
                                                 <th>Amount</th>
                                                 <th>Due Date</th>
-                                                <th>Status</th>
+                                                <th>STATUS</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php
-                                            $id=$_SESSION['aid'];
-                                            $query1 = "SELECT COUNT(user.name) FROM user,bill WHERE user.id=bill.uid AND aid={$id}";
+                                            <?php 
+                                            $id=$_SESSION['uid'];
+                                            $query1 = "SELECT COUNT(*) FROM bill where uid={$id}";
                                             $result1 = mysqli_query($con,$query1);
                                             $row1 = mysqli_fetch_row($result1);
                                             $numrows = $row1[0];
                                             include("paging1.php");
-                                            $result = retrieve_bills_generated($_SESSION['aid'],$offset, $rowsperpage);
+
+                                            $result = retrieve_bills_history($_SESSION['uid'],$offset, $rowsperpage);
+                                            // Initialising #
                                             while($row = mysqli_fetch_assoc($result)){
                                             ?>
                                                 <tr>
-                                                    <td><?php echo 'BN_'.$row['bid']?></td>
-                                                    <td height="50"><?php echo $row['user'] ?></td>
-                                                    <td><?php echo $row['bdate'] ?></td>
+                                                    <td height="50"><?php echo 'EBS_'.$row['id'] ?></td>
+                                                    <td height="50"><?php echo $row['bdate'] ?></td>
                                                     <td><?php echo $row['units'] ?></td>
                                                     <td><?php echo '$'.$row['amount'] ?></td>
                                                     <td><?php echo $row['ddate'] ?></td>
-                                                    <td><?php if($row['status'] == 'PENDING') { echo'<span class="badge" style="background: red;">'.$row["status"].'</span>'; } else { echo'<span class="badge" style="background: green;">'.$row["status"].'</span>';} ?></td>
+                                                    <td><?php echo $row['status'] ?></td>
                                                 </tr>
-                                            <?php 
-                                            }
-                                            ?>
+                                            <?php  } ?>
                                         </tbody>
-                                    </table>
-                                    <?php include("paging2.php");  ?>
+                                    </table>     
+                                    <?php include("paging2.php");  ?>                     
                                 </div>
                                 <!-- .table-responsive -->
                             </div>
-                            <!-- .tab-genereated -->
-
-                            <div class="tab-pane fade" id="generate">
+                            <div class="tab-pane fade" id="due">
                                 <!-- <h4>{User} due bill info goes here and each linked to a transaction form </h4> -->
-                                <!-- create a clickable list of USERS leading to a modal form to fill up units -->
-                                
-                                    <?php
-                                    $sql = "SELECT curdate1()";
-                                    $result = mysqli_query($con,$sql);
-                                    if($result === FALSE) {
-                                        echo "FAILED";
-                                        die(mysql_error()); 
-                                    }
-                                    $row = mysqli_fetch_row($result);
-                                    // echo $row[0];
-                                    if ($row[0] == 1) {
-                                        include("generate_bill_table.php") ;
-                                    }
-                                    else
-                                    {
-                                        //echo "<div class=\"text-danger text-center\" style=\"padding-top:100px; font-size: 30px;\">";
-                                        //echo " <b><u>BILL TO BE GENERATED ONLY ON THE FIRST OF THE MONTH</u></b>";
-                                        //echo " </div>" ;
-										include("generate_bill_table.php") ;
-                                    }
-                                     
-                                    ?>
-                            </div> 
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped table-bordered table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th>#</th> -->
+                                                <th>Bill Date</th>
+                                                <th>UNITS Consumed</th>
+                                                <th>Due Date</th>
+                                                <th>Amount</th>
+                                                <th>DUES</th>
+                                                <th>Payable</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
 
-                        </div>
-                        <!-- /.tab-content -->
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
+                                            $id=$_SESSION['uid'];
+                                            $query1 = "SELECT COUNT(*) FROM bill where uid={$id} AND status='PENDING' ";
+                                            $result1 = mysqli_query($con,$query1);
+                                            $row1 = mysqli_fetch_row($result1);
+                                            $numrows = $row1[0];
+                                            include("paging1.php");
+
+                                            $result = retrieve_bills_due($_SESSION['uid'],$offset, $rowsperpage);
+                                            // Initialising #
+                                            $counter = 1;
+                                            while($row = mysqli_fetch_assoc($result)){
+                                            ?>
+                                                <tr>
+                                                    <form action="transact_bill.php" method="post">
+                                                    <!-- <td height="40"><?php echo $counter ?></td> -->
+
+                                                    <input type="hidden" name="bdate" value=<?php echo $row['bdate'] ?> >
+                                                    <td td height="50"><?php echo $row['bdate'] ?></td>
+
+                                                    <input type="hidden" name="units" value=<?php echo $row['units'] ?> >
+                                                    <td><?php echo $row['units'] ?></td>
+
+                                                    <input type="hidden" name="ddate" value=<?php echo $row['ddate'] ?> >
+                                                    <td><?php echo $row['ddate'] ?></td>
+
+                                                    <input type="hidden" name="amount" value=<?php echo $row['amount'] ?> >
+                                                    <td><?php echo '$'.$row['amount'] ?></td>
+
+                                                    <!-- <input type="hidden" name="" value=<?php echo $row[''] ?> > -->
+                                                    <td><?php echo '$'.$row['dues'] ?></td>
+
+                                                    <input type="hidden" name="payable" value=<?php echo $row['payable'] ?> >
+                                                    <td><?php echo '$'.$row['payable'] ?></td>
+
+                                                    <td>
+                                                    <button class="btn btn-success form-control" data-toggle="modal"  data-target="#PAY">PAY</button>
+                                                    <!--TRANSACT BILL MODAL -->
+                                                    <div class="modal fade" id="PAY" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-sm">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                    <h3 class="modal-title text-centre"><b>Bills Transaction</b></h3>
+                                                                </div>
+                                                                <div class="modal-body text-center">
+                                                                    <h4>ARE YOU SURE?</h4>
+                                                                    <p>Do it before <?php echo $row['ddate']; ?> or DUES will served!!</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">LATER</button>
+                                                                        <button type="submit" id="pay_bill" name="pay_bill" class="btn btn-success ">PAY</button>
+                                                    </form> 
+                                                                </div>
+                                                            </div><!-- /.modal-content -->
+                                                        </div><!-- /.modal-dialog -->
+                                                    </div><!-- /.modal -->
+                                                </td>
+                                                </tr>
+                                            <?php 
+                                                $counter=$counter+1;
+                                            }
+                                            ?>
+                                        </tbody>
+
+                                    </table>
+
+                                <?php include("paging2.php");  ?>
+
+                                </div><!-- ./table-responsive -->
+
+                            </div> <!-- .tab-pane -->
+                           
+                        </div><!-- .tab-content -->
+
+                    </div><!-- /.col-lg-12 -->
+                    
+                </div> <!-- /.row -->
+               
+            </div><!-- /.container-fluid -->
+            
 
         </div>
         <!-- /#page-content-wrapper -->
@@ -137,4 +196,3 @@
 </body>
 
 </html>
-
